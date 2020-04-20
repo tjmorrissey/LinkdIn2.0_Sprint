@@ -1,0 +1,36 @@
+<html xmlns:th=http://www.thymeleaf.org>
+<head>
+<meta charset="ISO-8859-1">
+<title>LinkdIn 2.0</title>
+</head>
+<body>
+<h1>LinkdIn 2.0</h1>
+
+<h2>Login</h2>
+
+<p style="color:red">${errorCode }</p>
+
+<h4>Applicant Login</h4>
+<form th:action = "@{/appLogin}" method ="POST">
+Username: <input type="text" name="username"> <br>
+Password: <input type="password" name="userPassword"> <br>
+<input type="submit" value="Login as Applicant">
+</form>
+<br>
+<a href="/addNewApp">New Applicant</a>
+<br><br>
+<h4>Company Login</h4>
+<form action = "employerLogin" method ="post">
+Company Name: <input type="text" name="username"> <br>
+Password: <input type="password" name="compPassword"> <br>
+<input type="submit" value="Login as Company">
+</form>
+<br>
+<a href="createNewEmployer">New Company</a>
+
+<br><br><br>
+Created by Alex Kuberski, Regina Cameron, and Thomas Morrissey
+
+
+</body>
+</html>
