@@ -42,11 +42,10 @@ public class WebController {
 	@PostMapping("addNewApp")
 	public String addNewApplicant(@ModelAttribute Applicant a, Model model) {
 		appRepo.save(a);
+		
 		String username = a.getUsername();
 		
-		return "index";
-		
-		//return appLogin(username, model);
+		return appLogin(username, model);
 	}
 	
 	
