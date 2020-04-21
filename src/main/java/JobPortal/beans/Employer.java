@@ -1,10 +1,9 @@
 package JobPortal.beans;
 
+
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,8 +16,8 @@ public class Employer {
 	private Long employerId;
 	private String company;
 	
-	@OneToMany(targetEntity=Job.class, mappedBy="employer", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Job> jobsOffered;
+	@OneToMany
+	private Set<Job> jobsAppliedFor;
 	
 
 	public Employer() {
