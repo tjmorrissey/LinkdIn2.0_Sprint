@@ -8,7 +8,7 @@
 
 <p style="color:red">${errorCode }</p>
 
-<form th:object="${newApp}" th:action="@{/addNewApp}" method="POST" onsubmit="return(validateUsername());">
+<form th:object="${newApp}" th:action="@{/createNewApp}" method="POST" onsubmit="return(validateUsername());">
 Create a unique Username: <br>
 Username: <input type="text" name="username"> <br><br>
 Enter your Full Name: <br>

@@ -1,0 +1,36 @@
+<html xmlns:th=http://www.thymeleaf.org>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Job List</title>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+<h3>Job List</h3>
+<form>
+<table style="width:85%">
+<th:block th:each="currentJob : ${jobs}">
+	<tr>
+		<th width="80">Job Title:
+		<td th:text="$currentJob.title" />
+		<th width="80">Company:
+		<td th:text="$currentJob.employer.company" />
+	</tr>
+	<tr>
+		<td colspan="4">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan=4 height="400" th:text="$currentJob.jobdesc" />
+	</tr>
+	<tr>
+		<td bgcolor="#D3D3D3" colspan="4">&nbsp;</td>
+	</tr>
+</th:block>
+</table>
+</form>
+</body>
+</html>
