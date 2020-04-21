@@ -71,14 +71,14 @@ public class WebController {
 	public String addNewJob(@ModelAttribute Job j, Model model) {
 		jobRepo.save(j);
 		
-		//return to company profile, with list of jobs
+		//return to company profile, with list of their jobs
 		return "index";
 	}
 	
 	@GetMapping("/showJobList")
 	public String showJobList(Model model) {
 		
-		
+		model.addAttribute("jobs", jobRepo.findAll());
 		
 		return "jobList";
 	}
