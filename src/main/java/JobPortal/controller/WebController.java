@@ -92,10 +92,18 @@ public class WebController {
 		return "applicantHomePage";
 	}
 
-	@GetMapping("/delete/{id}")
+	@GetMapping("/deleteApp/{id}")
 	public String deleteApplicant(@PathVariable("applicantId") long id, Model model) {
 		Applicant c = appRepo.findById(id).orElse(null);
 		appRepo.delete(c);
+		return "applicantHomePage";
+	}
+	
+	@GetMapping("/deleteJobFromApp/{id}")
+	public String deleteJobAppliedFor(@PathVariable("jobId") long jobId, @PathVariable("applicantId") long appId, Model model) {
+		Applicant c = appRepo.findById(appId).orElse(null);
+		Job j = jobRepo.findById(jobId).orElse(null);
+		c.getJobsAppliedFor().remove(j);
 		return "applicantHomePage";
 	}
 
