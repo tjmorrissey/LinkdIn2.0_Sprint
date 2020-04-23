@@ -1,0 +1,26 @@
+<html xmlns:th=http://www.thymeleaf.org>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Create new Job</title>
+</head>
+<body>
+<h3>Create new Job</h3>
+
+<form th:object="${newJob}" th:action="@{/addNewJob}" method="POST">
+Enter Job Title: <br>
+<input type="text" name="username"> <br><br>
+
+Company Name: 
+
+Enter the Job Description: <br>
+<textarea name="jobdesc" rows="20" cols="50"></textarea>
+
+<br><br>
+
+<input type="hidden" name="companyId" value="company.employerId">
+<input type="submit" value="Create Job">
+
+</form>
+</body>
+</html>
