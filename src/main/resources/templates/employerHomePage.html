@@ -1,0 +1,34 @@
+<html xmlns:th=http://www.thymeleaf.org>
+<head>
+<meta charset="ISO-8859-1">
+<title>Employer Page</title>
+</head>
+<body>
+<p align="right">"${employer.username }"</p>
+
+<form action="editAppServlet" method="post">
+Username:  ${employer.username} <br>
+Company: ${company.name}	 <br>
+Title:	   ${job.title}	 <br>
+Position: ${job.title} <br>
+
+<input type="hidden" name ="employerId" value="${employer.employerId})">
+<input type="submit" value="Update Information">
+</form>
+
+<form action="navigateAppJobListServlet">
+<h4>Job Posting:</h4>
+<table>
+	<c:forEach var="jobsAppliedFor" items="${employer.jobsAppliedFor }">
+	<tr>
+		<td> ${jobsAppliedFor.title } </td>
+	</tr>
+	<tr>
+		<td> ${jobsAppliedFor.jobdesc } </td>
+	</tr>
+	</c:forEach>
+	</table>
+</form>
+
+</body>
+</html>
