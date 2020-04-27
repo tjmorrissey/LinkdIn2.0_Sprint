@@ -96,7 +96,7 @@ public class WebController {
 		Applicant c = appRepo.findById(id).orElse(null);
 		System.out.println("ITEM TO EDIT: " + c.toString());
 		model.addAttribute("newApplicant", c);
-		return "applicantHomePage";
+		return "editAppProfile";
 	}
 
 	@GetMapping("/deleteApp/{id}")
