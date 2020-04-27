@@ -1,5 +1,6 @@
 package JobPortal.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,6 +78,7 @@ public class WebController {
 
 	@PostMapping("addNewJob")
 	public String addNewJob(@ModelAttribute Job j, Model model) {
+		
 		jobRepo.save(j);
 
 		// return to applicant profile, with list of their jobs
