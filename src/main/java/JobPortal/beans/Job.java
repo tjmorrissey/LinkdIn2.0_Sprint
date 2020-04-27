@@ -4,14 +4,13 @@ package JobPortal.beans;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 public class Job {
@@ -21,9 +20,10 @@ public class Job {
 	private String title;
 	private String jobdesc;
 	
-	@ManyToOne
-	@JoinColumn(name = "employerId", referencedColumnName="employerId", insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "employerId")
 	private Employer employer;
+	
 	
 	@ManyToMany(mappedBy = "jobsAppliedFor")
 	private Set<Applicant> jobApplicants;
@@ -76,14 +76,14 @@ public class Job {
 		super();
 	
 		this.title = title;
-		this.employer = employer;
+		//this.employer = employer;
 		this.jobdesc = jobdesc;
 	
 	}
 
 	@Override
 	public String toString() {
-		return "Job [jobId=" + jobId + ", title=" + title + ", employerId=" + employer + ", jobdesc=" + jobdesc
+		return "Job [jobId=" + jobId + ", title=" + title + ", employerId=" + /*employer +*/ ", jobdesc=" + jobdesc
 				+ ", jobsAppliedFor="  + jobApplicants + "]";
 	}
 

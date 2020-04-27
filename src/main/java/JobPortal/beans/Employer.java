@@ -1,13 +1,15 @@
 package JobPortal.beans;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.Set;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
 
 @Entity
 public class Employer {
@@ -16,8 +18,8 @@ public class Employer {
 	private Long employerId;
 	private String company;
 	
-	@OneToMany
-	private Set<Job> jobsAppliedFor;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="employer")
+	private List<Job> jobsAvaliable = new ArrayList<>();
 	
 
 	public Employer() {
@@ -43,19 +45,24 @@ public class Employer {
 	public void setCompany(String company) {
 		this.company = company;
 	}
-
-
+	
+	public void addNewJob(Job j) {
+		jobsAvaliable.add(j);
+	}
+	
+	public void deleteJob(Job j) {
+		jobsAvaliable.remove(j);
+	}
 
 	public Employer(String company) {
 		super();
 		this.company = company;
-		
 	}
 
 
 	@Override
 	public String toString() {
-		return "Employer [employerId=" + employerId + ", company=" + company + "]";
+		return "Employer [employerId=" + employerId + ", company=" + company +"]";
 	}
 
 	

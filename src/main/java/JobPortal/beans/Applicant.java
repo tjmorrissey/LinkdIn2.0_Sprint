@@ -18,6 +18,7 @@ public class Applicant {
 	private String name;
 	private String address;
 	private String educationLevel;
+	
 	@ManyToMany
 	private Set<Job> jobsAppliedFor;
 
