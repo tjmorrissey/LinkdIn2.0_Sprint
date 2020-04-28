@@ -26,7 +26,7 @@ public class WebController {
 	EmployerRepository empRepo;
 	@Autowired
 	JobRepository jobRepo;
-
+	
 	@GetMapping("/homePage")
 	public String goToIndex() {
 		return "addNewApp";
@@ -93,20 +93,25 @@ public class WebController {
 		return "jobList";
 	}
 
-	@GetMapping("/edit/{id}")
-	public String showUpdateApplicant(@PathVariable("applicantId") long id, Model model) {
+	@GetMapping("/editApp/{appId}")
+	public String showUpdateApplicant(@PathVariable("appId") long id, Model model) {
+		
+		
 		Applicant c = appRepo.findById(id).orElse(null);
 		System.out.println("ITEM TO EDIT: " + c.toString());
-		model.addAttribute("newApplicant", c);
-		return "editAppProfile";
+		model.addAttribute("newApp", c);
+		return "editApplicant";
 	}
+	
+	@PostMapping("editApplicant")
+	public String addNewJob(@ModelAttribute Applicant a, Model model) {
+		
+		appRepo.save(a);
 
-	@GetMapping("/deleteApp/{id}")
-	public String deleteApplicant(@PathVariable("applicantId") long id, Model model) {
-		Applicant c = appRepo.findById(id).orElse(null);
-		appRepo.delete(c);
+		// return to applicant profile, with list of their jobs
 		return "applicantHomePage";
 	}
+	
 	
 	@GetMapping("/deleteJobFromApp/{id}")
 	public String deleteJobAppliedFor(@PathVariable("jobId") long jobId, @PathVariable("applicantId") long appId, Model model) {
@@ -147,5 +152,9 @@ public class WebController {
 		// return to company profile, with list of their jobs
 		return empLogin(comp, model);
 	}
+	
+
+	
+
 
 }

@@ -1,0 +1,33 @@
+<html xmlns:th=http://www.thymeleaf.org>
+<head>
+<meta charset="ISO-8859-1">
+<title>New Applicant</title>
+</head>
+<body>
+<h3>Edit new User</h3>
+
+<p style="color:red">${errorCode }</p>
+
+<form th:object="${newApp}" th:action="@{/editApplicant}" method="POST" onsubmit="return(validateUsername());">
+Create a unique Username: <br>
+Username: <input type="text" name="username" th:field="*{username}"> <br><br>
+Enter your Full Name: <br>
+Name: <input type="text" name="name" th:field="*{name}"> <br><br>
+Enter the City you live in: <br>
+City: <input type="text" name="address" th:field="*{address}"> <br><br>
+Enter your Highest Level of Education: <br>
+Education Level: 
+<select name="educationLevel" th:field="*{educationLevel}">
+	<option value="No High School">No High School</option>
+	<option value="High School">High School Diploma/GED</option>
+	<option value="Some College">Some College</option>
+	<option value="Associates">Associates Degree</option>
+	<option value="Bachelor">Bachelor Degree</option>
+	<option value="Master">Masters or Higher</option>
+</select>
+<input type="hidden" name="applicantId" th:field="*{applicantId}" /> 
+<input type="submit" value="Create User">
+
+</form>
+</body>
+</html>
