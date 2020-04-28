@@ -27,20 +27,15 @@ public class WebController {
 	@Autowired
 	JobRepository jobRepo;
 
-	@GetMapping("/homePage")
-	public String goToIndex() {
-		return "addNewApp";
-	}
-
 	
 	//-------APPLICANT--------------------
 	
-	@GetMapping("/appLogin")
-	public String appLogin(@PathVariable("username") String username, Model model) {
+	@PostMapping("/appLogin")
+	public String appLogin(@ModelAttribute("username") String username, Model model) {
 
 		Applicant app = appRepo.findAppByUsername(username);
-
 		model.addAttribute("applicant", app);
+		
 		return "applicantHomePage";
 	}
 
@@ -60,52 +55,14 @@ public class WebController {
 
 		return appLogin(username, model);
 	}
-
-	//-------JOB--------------------
 	
-	@GetMapping("/addNewJob")
-	public String addNewJob(Model model) {
-		Job j = new Job();
-		model.addAttribute("newJob", j);
 
-		// will need to send employer id from the Employer Home Page, allowing for
-		// company to auto fill.
-		// Employer comp = model.getAttribute("comp");
-		// model.addAttribute("company", comp);
-
-		return "createNewJob";
-	}
-
-	@PostMapping("addNewJob")
-	public String addNewJob(@ModelAttribute Job j, Model model) {
+	@GetMapping("/editApp/{appId}")
+	public String showUpdateApplicant(@PathVariable("appId") Long id, Model model) {
 		
-		jobRepo.save(j);
-
-		// return to applicant profile, with list of their jobs
-		return goToIndex();
-	}
-
-	@GetMapping("/showJobList")
-	public String showJobList(Model model) {
-
-		model.addAttribute("jobs", jobRepo.findAll());
-
-		return "jobList";
-	}
-
-	@GetMapping("/edit/{id}")
-	public String showUpdateApplicant(@PathVariable("applicantId") long id, Model model) {
 		Applicant c = appRepo.findById(id).orElse(null);
-		System.out.println("ITEM TO EDIT: " + c.toString());
-		model.addAttribute("newApplicant", c);
-		return "editAppProfile";
-	}
-
-	@GetMapping("/deleteApp/{id}")
-	public String deleteApplicant(@PathVariable("applicantId") long id, Model model) {
-		Applicant c = appRepo.findById(id).orElse(null);
-		appRepo.delete(c);
-		return "applicantHomePage";
+		model.addAttribute("newApp", c);
+		return "createNewApplicant";
 	}
 	
 	@GetMapping("/deleteJobFromApp/{id}")
@@ -116,15 +73,54 @@ public class WebController {
 		return "applicantHomePage";
 	}
 	
+
+	//-------JOB--------------------
+	
+	@GetMapping("/addNewJob/{employerId}")
+	public String addNewJob(@PathVariable("employerId") String company, Model model) {
+		Job j = new Job();
+		// will need to send employer id from the Employer Home Page, allowing for
+		// company to auto fill.
+
+		Employer comp = empRepo.findEmpByCompany(company);
+		
+		model.addAttribute("newJob", j);
+		
+		j.setEmployer(comp);
+		
+		return "createNewJob";
+	}
+
+	@PostMapping("addNewJob")
+	public String addNewJob(@ModelAttribute Job j, Model model) {
+		
+		jobRepo.save(j);
+		
+		Employer emp = j.getEmployer();
+		String comp = emp.getCompany();
+
+		// return to applicant profile, with list of their jobs
+		return empLogin(comp, model);
+	}
+
+	@GetMapping("/showJobList")
+	public String showJobList(Model model) {
+
+		model.addAttribute("jobs", jobRepo.findAll());
+
+		return "jobList";
+	}
+
+	
 	
 	//-------EMPLOYER--------------------
 	
-	@GetMapping("/empLogin")
-	public String empLogin(@PathVariable("company") String company, Model model) {
+	@PostMapping("/empLogin")
+	public String empLogin(@ModelAttribute("company") String company, Model model) {
 
-		Employer emp = empRepo.findAppByCompany(company);
-
+		Employer emp = empRepo.findEmpByCompany(company);
 		model.addAttribute("employer", emp);
+		
 		return "employerHomePage";
 	}
 	

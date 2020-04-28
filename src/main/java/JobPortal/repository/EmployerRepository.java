@@ -9,6 +9,6 @@ import JobPortal.beans.Employer;
 public interface EmployerRepository extends JpaRepository<Employer, Long> {
 	
 	@Query("SELECT t FROM Employer t where t.company = :company")
-	Employer findAppByCompany(@Param("company") String company);
+	Employer findEmpByCompany(@Param("company") String company);
 	
 }

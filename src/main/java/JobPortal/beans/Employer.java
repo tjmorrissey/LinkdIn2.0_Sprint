@@ -19,7 +19,7 @@ public class Employer {
 	private String company;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="employer")
-	private List<Job> jobsAvaliable = new ArrayList<>();
+	public List<Job> jobsAvaliable = new ArrayList<>();
 	
 
 	public Employer() {

@@ -4,28 +4,35 @@
 <title>Employer Page</title>
 </head>
 <body>
-<p align="right">"${employer.username }"</p>
 
-<form action="editAppServlet" method="post">
-Company: ${company.name}	 <br>
+<h1>Welcome <span th:text="${employer.company}"></span></h1> 
 
-<input type="hidden" name ="employerId" value="${employer.employerId})">
-<input type="submit" value="Update Information">
-</form>
 
-<form action="navigateAppJobListServlet">
-<h4>Job Posting:</h4>
-<table>
-	<c:forEach var="jobsAppliedFor" items="${employer.jobsAppliedFor }">
+
+<a th:href="@{/addNewJob/{employerId}(employerId=${employer.company})}">Add New Job</a>
+
+<form>
+<h4>Open Positions:</h4>
+<table style="width:85%">
+ <th:block th:each="currentJob: ${employer.jobsAvaliable}">
 	<tr>
-		<td> ${jobsAppliedFor.title } </td>
+		<th width="80">Job Title:
+		<td th:text="${currentJob.title}"/>
 	</tr>
 	<tr>
-		<td> ${jobsAppliedFor.jobdesc } </td>
+		
+	<tr>
+		<td colspan="4">&nbsp;</td>
 	</tr>
-	</c:forEach>
-	</table>
+	<tr>
+		<th width="200">Job Description:
+		<td colspan=4 th:text="${currentJob.jobdesc}" />
+	</tr>
+	<tr>
+		<td bgcolor="#D3D3D3" colspan="4">&nbsp;</td>
+	</tr>
+</th:block>
+</table>
 </form>
-
 </body>
 </html>

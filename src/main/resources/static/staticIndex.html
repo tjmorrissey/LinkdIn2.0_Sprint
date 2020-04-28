@@ -23,9 +23,11 @@ Password: <input type="password" name="userPassword"> <br>
 <br>
 <a href="/addNewApp">New Applicant</a>
 <br><br>
+
+
 <h4>Company Login</h4>
-<form action = "employerLogin" method ="post">
-Company Name: <input type="text" name="username"> <br>
+<form th:action = "@{/employerLogin}" method ="POST">
+Company Name: <input type="text" name="company"> <br>
 Password: <input type="password" name="compPassword"> <br>
 <input type="submit" value="Login as Company">
 </form>
@@ -36,11 +38,8 @@ Password: <input type="password" name="compPassword"> <br>
 Created by Alex Kuberski, Regina Cameron, and Thomas Morrissey
 
 <br><br>
-Test Button for Creating Job:
-<a href="/addNewJob">New Job</a>
-<br><br>
 Test Button for Job List
-<a href="/showJobList">Full List of Jobs</a>
+<a href="@{/showJobList}">Full List of Jobs</a>
 <br><br>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

@@ -8,17 +8,18 @@
 <h3>Create new Job</h3>
 
 <form th:object="${newJob}" th:action="@{/addNewJob}" method="POST">
-Enter Job Title: <br>
-<input type="text" name="username"> <br><br>
+Enter Job Title:
+<input type="text" name="title" th:field="*{title}" )> <br><br>
 
 Company Name: 
+<input type="text" th:field="*{employer.company}" readonly="readonly"> <br><br>
+<input type="hidden" name="company" th:field="*{employer.employerId}">
 
 Enter the Job Description: <br>
-<textarea name="jobdesc" rows="20" cols="50"></textarea>
+<textarea name="jobdesc" th:field="*{jobdesc}" rows="20" cols="80"></textarea>
 
 <br><br>
 
-<input type="hidden" name="companyId" value="company.employerId">
 <input type="submit" value="Create Job">
 
 </form>
