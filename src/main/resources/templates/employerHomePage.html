@@ -18,6 +18,7 @@
 	<tr>
 		<th width="80">Job Title:
 		<td th:text="${currentJob.title}"/>
+		<td> <a th:href="@{showJobInfo/{jobId}(jobId=${currentJob.jobId})}">View Job</a>
 	</tr>
 	<tr>
 		

@@ -73,6 +73,14 @@ public class Applicant {
 	public void setJobsAppliedFor(Set<Job> jobsAppliedFor) {
 		this.jobsAppliedFor = jobsAppliedFor;
 	}
+	
+	public void addJobAppliedFor(Job j) {
+		jobsAppliedFor.add(j);
+	}
+	
+	public void deleteJobAppliedFor(Job j) {
+		jobsAppliedFor.remove(j);
+	}
 
 	public Applicant(String username, String name, String educationLevel, String address) {
 		super();

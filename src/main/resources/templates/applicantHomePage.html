@@ -13,11 +13,16 @@
  <td th:text="${applicant.address}" />
  <td th:text="${applicant.educationLevel}" />
  <td><a th:href="@{/editApp/{appId}(appId=${applicant.applicantId})}">Edit Your Profile</a></td>
- <td><a th:href="@{/deleteApp/{appId}(appId=${applicant.applicantId})}">Delete Your Profile</a></td>
 </tr>
 </table>
 
 <input type="hidden" name="appId" value="applicant.applicantId">
+</form>
+
+<form th:action="@{/showJobList}" th:object="${applicant}" method="POST">
+Click Here to Apply for New Job:
+<input type="hidden" name="username" th:field="*{username}">
+<input type="submit" value="Apply">
 </form>
 
 <form>

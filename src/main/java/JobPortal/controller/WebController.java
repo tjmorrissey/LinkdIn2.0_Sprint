@@ -1,6 +1,9 @@
 package JobPortal.controller;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +15,11 @@ import org.springframework.ui.Model;
 import JobPortal.beans.Applicant;
 import JobPortal.beans.Employer;
 import JobPortal.beans.Job;
+import JobPortal.beans.jobListData;
 import JobPortal.repository.ApplicantRepository;
 import JobPortal.repository.EmployerRepository;
 import JobPortal.repository.JobRepository;
+import lombok.var;
 
 
 @Controller
@@ -66,10 +71,28 @@ public class WebController {
 	}
 	
 	@GetMapping("/deleteJobFromApp/{id}")
-	public String deleteJobAppliedFor(@PathVariable("jobId") long jobId, @PathVariable("applicantId") long appId, Model model) {
+	public String deleteJobAppliedFor(@PathVariable("jobId") Long jobId, @PathVariable("applicantId") Long appId, Model model) {
 		Applicant c = appRepo.findById(appId).orElse(null);
 		Job j = jobRepo.findById(jobId).orElse(null);
 		c.getJobsAppliedFor().remove(j);
+		return "applicantHomePage";
+	}
+	
+	@PostMapping("/applyForJob/{jobId}")
+	public String applyForJob(@PathVariable("jobId") Long jobId, @ModelAttribute("username") String username, Model model) {
+		
+		Applicant app = appRepo.findAppByUsername(username);
+		List<Job> jobs = jobRepo.findAll();	
+		Job j = null;
+		
+		for(Job job :jobs) {
+			if(job.getJobId() == jobId) {
+				j = job;
+			}  }
+		
+		app.addJobAppliedFor(j);
+		
+		model.addAttribute("applicant", app);
 		return "applicantHomePage";
 	}
 	
@@ -103,12 +126,32 @@ public class WebController {
 		return empLogin(comp, model);
 	}
 
-	@GetMapping("/showJobList")
-	public String showJobList(Model model) {
-
-		model.addAttribute("jobs", jobRepo.findAll());
+	@PostMapping("/showJobList")
+	public String showJobList(@ModelAttribute("username") String username, Model model) {
+		
+		Applicant app = appRepo.findAppByUsername(username);
+		
+		jobListData data = new jobListData(app, jobRepo.findAll());
+		
+		model.addAttribute("pageData", data);
 
 		return "jobList";
+	}
+	
+	
+	@GetMapping("/showJobInfo/{jobId}")
+	public String showJobInfo(@PathVariable("jobId") int jobId, Model model) {
+		
+		//had to go round about way, as was getting issues with Optional, and did not have time to solve
+		List<Job> jobs = jobRepo.findAll();	
+		Job j = null;
+		
+		for(Job job :jobs) {
+			if(job.getJobId() == jobId) {
+				j = job;
+			}  }
+		model.addAttribute("job", j);
+		return "jobPage";
 	}
 
 	

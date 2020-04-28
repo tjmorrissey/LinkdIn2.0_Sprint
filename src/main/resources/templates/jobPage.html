@@ -1,0 +1,37 @@
+<html xmlns:th=http://www.thymeleaf.org>
+<head>
+<meta charset="ISO-8859-1">
+<title>Job Page</title>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+
+<h1>-<span th:text="${job.employer.company}"></span>-</h1>
+<h3>-<span th:text="${job.title}"></span>-</h3>
+<form>
+<h4>Applicants:</h4>
+<table style="width:85%">
+	<tr>
+		<th>Username</th>
+		<th>Name</th>
+		<th>City</th>
+		<th>Education Level</th>
+	</tr>
+ <th:block th:each="currentApp: ${job.jobApplicants}">
+	<tr>
+		<td th:text="${currentApp.username}" />
+ 		<td th:text="${currentApp.name}" />
+ 		<td th:text="${currentApp.address}" />
+		<td th:text="${currentApp.educationLevel}" />
+	</tr>
+</th:block>
+</table>
+</form>
+
+<a th:href="@{/empLogin/{company}(company=${job.employer.company})}">Back to Employer Page</a>
+</body>
+</html>

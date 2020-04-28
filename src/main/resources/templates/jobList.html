@@ -12,23 +12,28 @@ table, th, td {
 <body>
 <h1>Job List</h1>
 <form>
+
+<h1>Welcome <span th:text="${pageData.applicant.name}" name="username"></span></h1>
+
 <table style="width:85%">
-<th:block th:each="currentJob : ${jobs}">
-	<tr>
+<th:block th:each="currentJob : ${pageData.jobs}">
+	<tr height="40">
+		<td width="50"> 
+			<input type="button" value="Apply" onclick="location.href='@{/applyForJob/{jobId}(jobId=${currentJob.jobId})}'"> 
+		</td>
 		<th width="80">Job Title:
 		<td th:text="${currentJob.title}" />
 		<th width="80">Company:
 		<td th:text="${currentJob.employer.company}" />
 	</tr>
 	<tr>
-		<th height="30" colspan="4">Job Description:
+		<th height="30" colspan="5">Job Description:
 	</tr>
 	<tr>
-	
-		<td colspan=4 height="120" th:text="${currentJob.jobdesc}" />
+		<td colspan=5 height="120" th:text="${currentJob.jobdesc}" />
 	</tr>
 	<tr>
-		<td bgcolor="#D3D3D3" colspan="4">&nbsp;</td>
+		<td bgcolor="#D3D3D3" colspan="5">&nbsp;</td>
 	</tr>
 </th:block>
 </table>
