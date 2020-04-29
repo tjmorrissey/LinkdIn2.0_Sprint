@@ -2,7 +2,6 @@ package JobPortal.controller;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,6 @@ import JobPortal.beans.jobListData;
 import JobPortal.repository.ApplicantRepository;
 import JobPortal.repository.EmployerRepository;
 import JobPortal.repository.JobRepository;
-import lombok.var;
 
 
 @Controller
@@ -33,12 +31,19 @@ public class WebController {
 	JobRepository jobRepo;
 
 	
+	public Applicant currentGlobalApp;
+	public Employer currentGlobalEmp;
+	
+	
 	//-------APPLICANT--------------------
 	
 	@PostMapping("/appLogin")
 	public String appLogin(@ModelAttribute("username") String username, Model model) {
 
 		Applicant app = appRepo.findAppByUsername(username);
+		
+		currentGlobalApp = app;
+		
 		model.addAttribute("applicant", app);
 		
 		return "applicantHomePage";
@@ -78,10 +83,59 @@ public class WebController {
 		return "applicantHomePage";
 	}
 	
-	@PostMapping("/applyForJob/{jobId}")
-	public String applyForJob(@PathVariable("jobId") Long jobId, @ModelAttribute("username") String username, Model model) {
+	/*@GetMapping("/applyForJob/{jobId}") 	
+	public String applyForJob(@PathVariable("jobId") Long jobId,  Model model) { 	
 		
-		Applicant app = appRepo.findAppByUsername(username);
+		Job b = jobRepo.findById(jobId).orElse(null);  		
+		
+		Applicant app = new Applicant();
+		
+		app.addJobAppliedFor(b);
+		
+		//model.addAttribute("test", app);
+		
+		//return "outputTestPage"; 
+		
+		model.addAttribute("applicant", app); 
+		
+		return "applyForJob"; 	
+		}
+	
+		/*@PostMapping("/applyForJob") 	
+		public String applyForJob(@ModelAttribute("applicant") Applicant app,  Model model) { 	
+		
+			
+		model.addAttribute("test", app);
+		
+		return "outputTestPage";
+			
+		/*Applicant applicant = appRepo.findAppByUsername(app.getUsername());
+		
+		applicant.addJobListAppliedFor(applicant.getJobsAppliedFor());
+			
+		appRepo.save(applicant);
+		
+		return appLogin(applicant.getUsername(), model); 
+		}*/
+	
+	
+	
+	/*@GetMapping("/applyForJob/{jobId}")
+	public String applyForJob(@PathVariable("jobId") Long jobId, Model model) {
+		
+		jobListData data = new jobListData();
+		data.jobs = jobRepo.findAll();
+		data.applicant = currentGlobalApp;
+	
+		model.addAttribute("pageData", data); 
+		return "jobList";
+	}*/
+	
+	@GetMapping("/applyForJob/{jobId}")
+	public String applyForJob(@PathVariable("jobId") Long jobId, Model model) {
+		
+		Applicant app = currentGlobalApp;
+		
 		List<Job> jobs = jobRepo.findAll();	
 		Job j = null;
 		
@@ -90,11 +144,46 @@ public class WebController {
 				j = job;
 			}  }
 		
+		//model.addAttribute("test", app);
+		//return "outputTestPage";
+		
 		app.addJobAppliedFor(j);
 		
+		
+		appRepo.save(app);
+		
+		
 		model.addAttribute("applicant", app);
-		return "applicantHomePage";
+		
+		return appLogin(app.getUsername(), model);
 	}
+	
+	/*@GetMapping("/applyForJob/{appId}/{jobId}")
+	public String applyForJob(@PathVariable("appId") Long appId, @PathVariable("jobId") Long jobId, Model model) {
+		
+		List<Job> jobs = jobRepo.findAll();	
+		List<Applicant> apps = appRepo.findAll();	
+		
+		Job j = null;
+		Applicant a = null;
+		
+		for(Job job :jobs) {
+			if(job.getJobId().toString().equals(jobId)) {
+				j = job;
+			}  }
+		
+		for(Applicant app :apps) {
+			if(app.getApplicantId().toString().equals(appId)) {
+				a = app;
+			}  }
+		
+			a.addJobAppliedFor(j);
+			
+			model.addAttribute("test", a);
+			return "outputTestPage";
+		
+		//return appLogin(a.getUsername(), model);
+	}*/
 	
 
 	//-------JOB--------------------
@@ -127,9 +216,9 @@ public class WebController {
 	}
 
 	@PostMapping("/showJobList")
-	public String showJobList(@ModelAttribute("username") String username, Model model) {
+	public String showJobList(Model model) {
 		
-		Applicant app = appRepo.findAppByUsername(username);
+		Applicant app = currentGlobalApp;
 		
 		jobListData data = new jobListData(app, jobRepo.findAll());
 		
