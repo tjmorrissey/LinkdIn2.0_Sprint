@@ -43,6 +43,9 @@ table, th, td {
 <input type="hidden" th:value="${pageData.applicant.applicantId}"><!-- th:field="*{pageData.applicantId}">-->
 <input type="submit" value="Apply for Job">
 </form>
+
+<br><br>
+<a th:href="@{/returnToApp}">Go Back to Applicant Home Page</a>
 <br><br>
 <a th:href="@{/index}">Log Out</a>
 

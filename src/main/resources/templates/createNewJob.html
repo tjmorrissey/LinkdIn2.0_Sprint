@@ -23,9 +23,8 @@ Enter the Job Description: <br>
 
 </form>
 
-<form th:object="${newJob}" th:action= "@{/returnToEmp}">
-<input type="hidden" name="company" value="employer.company"> <br>
-<input type="submit" value="Go Back">
-</form>
+<br><br>
+<a th:href="@{/returnToEmp}">Go Back to Employer Home Page</a>
+
 </body>
 </html>

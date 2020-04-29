@@ -124,6 +124,18 @@ public class WebController {
 		return appLogin(app.getUsername(), model);
 	}
 	
+	@GetMapping("/returnToApp")
+	public String returnToApp(Model model) {
+
+		Applicant app = currentGlobalApp;
+		
+		if(app.equals(null)) {
+			return logOut(model);
+		}
+		
+		return appLogin(app.getUsername(), model);
+	}
+	
 	/*@GetMapping("/applyForJob/{jobId}") 	
 	public String applyForJob(@PathVariable("jobId") Long jobId,  Model model) { 	
 		
@@ -285,17 +297,22 @@ public class WebController {
 	public String empLogin(@ModelAttribute("company") String company, Model model) {
 
 		Employer emp = empRepo.findEmpByCompany(company);
+		currentGlobalEmp = emp;
 		model.addAttribute("employer", emp);
 		
 		return "employerHomePage";
 	}
 	
 	@GetMapping("/returnToEmp")
-	public String returnToEmp(@ModelAttribute("company") String company, Model model) {
+	public String returnToEmp(Model model) {
 
-		Employer emp = empRepo.findEmpByCompany(company);
-		model.addAttribute("employer", emp);
+		Employer emp = currentGlobalEmp;
 		
+		if(emp.equals(null)) {
+			return logOut(model);
+		}
+		
+		model.addAttribute("employer", emp);
 		return "employerHomePage";
 	}
 	
