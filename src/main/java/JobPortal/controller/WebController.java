@@ -288,6 +288,14 @@ public class WebController {
 		model.addAttribute("job", j);
 		return "jobPage";
 	}
+	
+	@GetMapping("/editJob/{jobId}")
+	public String showUpdateJob(@PathVariable("jobId") Long id, Model model) {
+		
+		Job j = jobRepo.findById(id).orElse(null);
+		model.addAttribute("newJob", j);
+		return "createNewJob";
+	}
 
 	
 	
