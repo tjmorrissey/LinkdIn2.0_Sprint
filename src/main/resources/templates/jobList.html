@@ -11,15 +11,18 @@ table, th, td {
 </head>
 <body>
 <h1>Job List</h1>
-<form>
 
-<h1>Welcome <span th:text="${pageData.applicant.name}" name="username"></span></h1>
+<h1>Welcome <span th:text="${pageData.applicant.name}" ></span></h1>
 
+
+<form th:object="${pageData}" th:action="@{applyForJob}" method="POST">
 <table style="width:85%">
-<th:block th:each="currentJob : ${pageData.jobs}">
+<th:block th:each="currentJob: ${pageData.jobs}">
 	<tr height="40">
 		<td width="50"> 
-			<input type="button" value="Apply" onclick="location.href='@{/applyForJob/{jobId}(jobId=${currentJob.jobId})}'"> 
+			<!--<a th:href="@{/applyForJob/applicant/{appId}/job/{jobId}(appId = ${pageData.applicant.applicantId}, jobId = ${currentJob.jobId})}">Apply</a>-->
+			<!-- <input type="radio" th:value="${currentJob.jobId}" th:field="*{appliedJob}"/>-->
+			<a th:href="@{/applyForJob/{jobId}(jobId=${currentJob.jobId})}">Apply</a>
 		</td>
 		<th width="80">Job Title:
 		<td th:text="${currentJob.title}" />
@@ -37,6 +40,14 @@ table, th, td {
 	</tr>
 </th:block>
 </table>
+<input type="hidden" th:value="${pageData.applicant.applicantId}"><!-- th:field="*{pageData.applicantId}">-->
+<input type="submit" value="Apply for Job">
 </form>
+
+<br><br>
+<a th:href="@{/returnToApp}">Go Back to Applicant Home Page</a>
+<br><br>
+<a th:href="@{/index}">Log Out</a>
+
 </body>
 </html>

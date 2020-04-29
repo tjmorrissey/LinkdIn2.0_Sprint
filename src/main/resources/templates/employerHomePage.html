@@ -19,6 +19,8 @@
 		<th width="80">Job Title:
 		<td th:text="${currentJob.title}"/>
 		<td> <a th:href="@{showJobInfo/{jobId}(jobId=${currentJob.jobId})}">View Job</a>
+		&nbsp;&nbsp;
+			 <a th:href="@{editJob/{jobId}(jobId=${currentJob.jobId})}">Edit Job</a>
 	</tr>
 	<tr>
 		
@@ -35,5 +37,9 @@
 </th:block>
 </table>
 </form>
+
+<br><br>
+<a th:href="@{/index}">Log Out</a>
+
 </body>
 </html>

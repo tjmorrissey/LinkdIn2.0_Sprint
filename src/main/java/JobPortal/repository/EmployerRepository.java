@@ -11,4 +11,6 @@ public interface EmployerRepository extends JpaRepository<Employer, Long> {
 	@Query("SELECT t FROM Employer t where t.company = :company")
 	Employer findEmpByCompany(@Param("company") String company);
 	
+	
+	
 }

@@ -14,6 +14,9 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 @Entity
 public class Job {
@@ -24,12 +27,13 @@ public class Job {
 	@Column(columnDefinition="VARCHAR(2000)")
 	private String jobdesc;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "employerId")
 	private Employer employer;
 	
 	
-	@ManyToMany(mappedBy = "jobsAppliedFor")
+	@ManyToMany(mappedBy = "jobsAppliedFor", fetch = FetchType.EAGER)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Set<Applicant> jobApplicants;
 
 	public Job() {
