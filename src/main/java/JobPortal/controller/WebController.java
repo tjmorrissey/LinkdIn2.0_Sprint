@@ -336,12 +336,36 @@ public class WebController {
 	@PostMapping("createNewEmployer")
 	public String addNewCompany(@ModelAttribute Employer emp, Model model) {
 		
+		List<Employer> emps = empRepo.findAll();
+		boolean pass = true;
+		
+		//check if company name already exists
+		for(Employer e: emps) {
+			if(e.getCompany().equals(emp.getCompany())) {
+				pass = false;
+			}
+		}
+		
+		if(!pass) {	
+			//if company name does exist already will route back to createNewApplicant page
+			//will need to figure something out to send error codes/messages
+			return failNewEmployer(model);
+		}
+		else {
 		empRepo.save(emp);
 		
 		String comp = emp.getCompany();
 
 		// return to company profile, with list of their jobs
 		return empLogin(comp, model);
+		}
+	}
+	
+	public String failNewEmployer(Model model) {
+		Employer e = new Employer();
+		model.addAttribute("newEmployer", e);
+
+		return "createNewEmployer";
 	}
 
 }
