@@ -7,6 +7,8 @@ public class jobListData {
 	public Applicant applicant;
 	public List<Job> jobs;
 	
+	public String appliedJob;
+	public Long appliedJobInt;
 	public String applicantId;
 	
 	
