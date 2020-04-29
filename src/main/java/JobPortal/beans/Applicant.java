@@ -1,6 +1,7 @@
 package JobPortal.beans;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class Applicant {
 	private String educationLevel;
 	
 	@ManyToMany
-	private List<Job> jobsAppliedFor = new ArrayList<Job>();
+	public List<Job> jobsAppliedFor = new ArrayList<Job>();
 
 	public Applicant() {
 		super();

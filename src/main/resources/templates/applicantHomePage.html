@@ -32,7 +32,7 @@ Click Here to Apply for New Job:
 <th:block th:each="currentJob: ${applicant.jobsAppliedFor}">
 	<tr height="40">
 		<td width="50">
-			<a th:href="@{/deleteJobFromApp/{id}(id=${currentJob.jobId})}">Delete</a>
+			<a th:href="@{/deleteJobFromApp/{jobId}(jobId=${currentJob.jobId})}">Delete</a>
 		</td>
 		<th width="80">Job Title:
 		<td th:text="${currentJob.title}" />
@@ -51,6 +51,8 @@ Click Here to Apply for New Job:
 </th:block>
 </table>
 </form>
+<br><br>
+<a th:href="@{/index}">Log Out</a>
 
 </body>
 </html>

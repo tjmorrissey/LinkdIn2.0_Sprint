@@ -1,5 +1,4 @@
 <html xmlns:th=http://www.thymeleaf.org>
-<html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Create new Job</title>
@@ -22,6 +21,11 @@ Enter the Job Description: <br>
 
 <input type="submit" value="Create Job">
 
+</form>
+
+<form th:object="${newJob}" th:action= "@{/returnToEmp}">
+<input type="hidden" name="company" value="employer.company"> <br>
+<input type="submit" value="Go Back">
 </form>
 </body>
 </html>

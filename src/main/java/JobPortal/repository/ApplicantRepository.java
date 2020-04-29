@@ -10,5 +10,4 @@ public interface ApplicantRepository extends JpaRepository<Applicant, Long>{
 
 	@Query("SELECT t FROM Applicant t where t.username = :username")
 	Applicant findAppByUsername(@Param("username") String username);
-	
 }

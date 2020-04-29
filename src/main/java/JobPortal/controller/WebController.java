@@ -34,6 +34,11 @@ public class WebController {
 	public Applicant currentGlobalApp;
 	public Employer currentGlobalEmp;
 	
+	@GetMapping({"/", "/index"})
+	public String logOut(Model mode) {
+		return "/index";
+	}
+	
 	
 	//-------APPLICANT--------------------
 	
@@ -56,14 +61,37 @@ public class WebController {
 
 		return "createNewApplicant";
 	}
+	
+	public String failNewApplicant(Model model) {
+		Applicant a = new Applicant();
+		model.addAttribute("newApp", a);
+
+		return "createNewApplicant";
+	}
 
 	@PostMapping("addNewApp")
 	public String addNewApplicant(@ModelAttribute Applicant a, Model model) {
+		
+		List<Applicant> apps = appRepo.findAll();
+		boolean pass = true;
+		
+		//check if username already exists
+		for(Applicant app: apps) {
+			if(app.getUsername().equals(a.getUsername())) {
+				pass = false;
+			}
+		}
+		
+		if(!pass) {	
+			//if username does exist already will route back to createNewApplicant page
+			//will need to figure something out to send error codes/messages
+			return failNewApplicant(model);
+		}
+		else {
 		appRepo.save(a);
-
 		String username = a.getUsername();
-
 		return appLogin(username, model);
+		}
 	}
 	
 
@@ -75,12 +103,25 @@ public class WebController {
 		return "createNewApplicant";
 	}
 	
-	@GetMapping("/deleteJobFromApp/{id}")
-	public String deleteJobAppliedFor(@PathVariable("jobId") Long jobId, @PathVariable("applicantId") Long appId, Model model) {
-		Applicant c = appRepo.findById(appId).orElse(null);
+	@GetMapping("/deleteJobFromApp/{jobId}")
+	public String deleteJobAppliedFor(@PathVariable("jobId") Long jobId, Model model) {
+		
+		Applicant app = currentGlobalApp;
 		Job j = jobRepo.findById(jobId).orElse(null);
-		c.getJobsAppliedFor().remove(j);
-		return "applicantHomePage";
+		
+		//List<Job> jobs = app.getJobsAppliedFor();
+		//jobs.remove(j);
+		//app.setJobsAppliedFor(jobs);
+		
+		app.jobsAppliedFor.remove(j);
+		
+		appRepo.saveAndFlush(app);
+		
+		//model.addAttribute("test",j.getTitle());
+		
+		//return "outputTestPage"; 
+		
+		return appLogin(app.getUsername(), model);
 	}
 	
 	/*@GetMapping("/applyForJob/{jobId}") 	
@@ -144,16 +185,9 @@ public class WebController {
 				j = job;
 			}  }
 		
-		//model.addAttribute("test", app);
-		//return "outputTestPage";
-		
 		app.addJobAppliedFor(j);
 		
-		
 		appRepo.save(app);
-		
-		
-		model.addAttribute("applicant", app);
 		
 		return appLogin(app.getUsername(), model);
 	}
@@ -249,6 +283,15 @@ public class WebController {
 	
 	@PostMapping("/empLogin")
 	public String empLogin(@ModelAttribute("company") String company, Model model) {
+
+		Employer emp = empRepo.findEmpByCompany(company);
+		model.addAttribute("employer", emp);
+		
+		return "employerHomePage";
+	}
+	
+	@GetMapping("/returnToEmp")
+	public String returnToEmp(@ModelAttribute("company") String company, Model model) {
 
 		Employer emp = empRepo.findEmpByCompany(company);
 		model.addAttribute("employer", emp);
