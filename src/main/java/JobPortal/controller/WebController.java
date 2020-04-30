@@ -109,18 +109,10 @@ public class WebController {
 		Applicant app = currentGlobalApp;
 		Job j = jobRepo.findById(jobId).orElse(null);
 		
-		//List<Job> jobs = app.getJobsAppliedFor();
-		//jobs.remove(j);
-		//app.setJobsAppliedFor(jobs);
+		app.deleteJobAppliedFor(j);
 		
-		app.jobsAppliedFor.remove(j);
-		
-		appRepo.saveAndFlush(app);
-		
-		//model.addAttribute("test",j.getTitle());
-		
-		//return "outputTestPage"; 
-		
+		appRepo.save(app);
+	
 		return appLogin(app.getUsername(), model);
 	}
 	

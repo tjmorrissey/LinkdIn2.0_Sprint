@@ -14,8 +14,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 
 @Entity
@@ -32,8 +32,8 @@ public class Job {
 	private Employer employer;
 	
 	
-	@ManyToMany(mappedBy = "jobsAppliedFor", fetch = FetchType.EAGER)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@ManyToMany(mappedBy = "jobsAppliedFor")
+
 	private Set<Applicant> jobApplicants;
 
 	public Job() {
