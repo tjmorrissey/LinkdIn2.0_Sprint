@@ -3,6 +3,8 @@ package JobPortal.controller;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,14 +46,19 @@ public class WebController {
 	
 	@PostMapping("/appLogin")
 	public String appLogin(@ModelAttribute("username") String username, Model model) {
-
-		Applicant app = appRepo.findAppByUsername(username);
 		
-		currentGlobalApp = app;
-		
-		model.addAttribute("applicant", app);
-		
-		return "applicantHomePage";
+			Applicant app = appRepo.findAppByUsername(username);
+			
+			if(!(app==null)) {
+				currentGlobalApp = app;
+				model.addAttribute("applicant", app);
+				return "applicantHomePage";
+			}
+			else{
+				String error = "Username does not exist.  Please try again, or Create a New Applicant.";
+				model.addAttribute("error", error);
+				return "/index";
+			}
 	}
 
 	@GetMapping("/addNewApp")
@@ -75,10 +82,13 @@ public class WebController {
 		List<Applicant> apps = appRepo.findAll();
 		boolean pass = true;
 		
-		//check if username already exists
-		for(Applicant app: apps) {
-			if(app.getUsername().equals(a.getUsername())) {
-				pass = false;
+		if(a.getApplicantId() == null) {
+		
+			//check if username already exists
+			for(Applicant app: apps) {
+				if(app.getUsername().equals(a.getUsername())) {
+					pass = false;
+				}
 			}
 		}
 		
@@ -112,7 +122,7 @@ public class WebController {
 		app.deleteJobAppliedFor(j);
 		
 		appRepo.save(app);
-	
+		
 		return appLogin(app.getUsername(), model);
 	}
 	
@@ -297,10 +307,19 @@ public class WebController {
 	public String empLogin(@ModelAttribute("company") String company, Model model) {
 
 		Employer emp = empRepo.findEmpByCompany(company);
-		currentGlobalEmp = emp;
-		model.addAttribute("employer", emp);
 		
-		return "employerHomePage";
+		if(!(emp==null)) {
+		
+			currentGlobalEmp = emp;
+			model.addAttribute("employer", emp);
+			
+			return "employerHomePage";
+		}
+		else {
+			String error = "Company does not exist.  Please try again, or Create a New Company.";
+			model.addAttribute("error", error);
+			return "/index";
+		}
 	}
 	
 	@GetMapping("/returnToEmp")

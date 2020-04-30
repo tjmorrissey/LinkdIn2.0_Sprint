@@ -9,6 +9,9 @@ table, th, td {
 </style>
 </head>
 <body>
+
+<h1>Welcome <span th:text="${applicant.name}"></span></h1> 
+
 <form>
 <table>
 <tr><td>Username: </td><td th:text="${applicant.username}" /> </tr>

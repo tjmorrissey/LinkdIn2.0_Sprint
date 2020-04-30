@@ -6,8 +6,6 @@
 <body>
 <h3>Create new User</h3>
 
-<p style="color:red">${errorCode }</p>
-
 <form th:object="${newApp}" th:action="@{/addNewApp}" method="POST" onsubmit="return(validateUsername());">
 Create a unique Username: <br>
 Username: <input type="text" name="username" th:field="*{username}"> <br><br>
@@ -27,6 +25,7 @@ Education Level:
 </select>
 
 <input type="hidden" name="applicantId" th:field="*{applicantId}">
+<!--<input type="hidden" name="jobsAppliedFor" th:field="*{jobsAppliedFor}">-->
 
 <input type="submit" value="Create User">
 

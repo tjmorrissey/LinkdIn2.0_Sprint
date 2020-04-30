@@ -6,8 +6,6 @@
 <body>
 <h3>Create new Employer</h3>
 
-<p style="color:red">${errorCode }</p>
-
 <form th:object="${newEmployer}" th:action="@{/createNewEmployer}" method="POST">
 Enter Company: <br>
  <input type="text" name="company"> <br><br>

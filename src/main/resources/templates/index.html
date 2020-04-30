@@ -12,7 +12,7 @@
 
 <h2>Login</h2>
 
-<p style="color:red">${errorCode }</p>
+<p style="color:red" th:text="${error}"></p>
 
 <h4>Applicant Login</h4>
 <form th:action = "@{/appLogin}" method ="POST">
@@ -35,9 +35,6 @@ Password: <input type="password" name="compPassword"> <br>
 <br><br><br>
 Created by Alex Kuberski, Regina Cameron, and Thomas Morrissey
 
-<br><br>
-Test Button for Job List
-<a href="/showJobList">Full List of Jobs</a>
 <br><br>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

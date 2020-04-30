@@ -1,16 +1,13 @@
 package JobPortal.beans;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,8 +21,7 @@ public class Applicant {
 	private String address;
 	private String educationLevel;
 	
-	@ManyToMany
-	@Cascade(CascadeType.REMOVE)
+	@ManyToMany(fetch = FetchType.EAGER)
 	public Set<Job> jobsAppliedFor;
 
 	public Applicant() {
@@ -88,10 +84,6 @@ public class Applicant {
 	public void deleteJobAppliedFor(Job j) {
 		this.jobsAppliedFor.remove(j);
 		j.getJobApplicants().remove(this);
-	}
-	
-	public void addJobListAppliedFor(List<Job> jobs) {
-		jobsAppliedFor.addAll(jobs);
 	}
 
 	public Applicant(String username, String name, String educationLevel, String address) {
