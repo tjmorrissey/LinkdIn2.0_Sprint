@@ -1,0 +1,61 @@
+<html xmlns:th=http://www.thymeleaf.org>
+<head>
+<meta charset="ISO-8859-1">
+<title>Applicant Page</title>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+
+<h1>Welcome <span th:text="${applicant.name}"></span></h1> 
+
+<form>
+<table>
+<tr><td>Username: </td><td th:text="${applicant.username}" /> </tr>
+<tr><td>Name:  </td><td th:text="${applicant.name}" />		</tr>
+<tr><td>City: </td><td th:text="${applicant.address}" />	</tr>
+<tr><td>Education Level: </td><td th:text="${applicant.educationLevel}" />  </tr>
+<tr> <td colspan ="2"><a th:href="@{/editApp/{appId}(appId=${applicant.applicantId})}">Edit Your Profile</a></td></tr>
+</table>
+
+<input type="hidden" name="appId" value="applicant.applicantId">
+</form>
+
+<form th:action="@{/showJobList}" th:object="${applicant}" method="POST">
+Click Here to Apply for New Job:
+<input type="hidden" name="username" th:field="*{username}">
+<input type="submit" value="Apply">
+</form>
+
+<form>
+<table style="width:85%">
+<th:block th:each="currentJob: ${applicant.jobsAppliedFor}">
+	<tr height="40">
+		<td width="50">
+			<a th:href="@{/deleteJobFromApp/{jobId}(jobId=${currentJob.jobId})}">Delete</a>
+		</td>
+		<th width="80">Job Title:
+		<td th:text="${currentJob.title}" />
+		<th width="80">Company:
+		<td th:text="${currentJob.employer.company}" />
+	</tr>
+	<tr>
+		<th height="30" colspan="5">Job Description:
+	</tr>
+	<tr>
+		<td colspan=5 height="120" th:text="${currentJob.jobdesc}" />
+	</tr>
+	<tr>
+		<td bgcolor="#D3D3D3" colspan="5">&nbsp;</td>
+	</tr>
+</th:block>
+</table>
+</form>
+<br><br>
+<a th:href="@{/index}">Log Out</a>
+
+</body>
+</html>

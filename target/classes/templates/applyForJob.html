@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Apply for the Job</title>
+</head>
+<body>
+
+<h2>Confirm to Apply for Job</h2>
+
+<form th:object="${applicant}" th:action = "@{/applyForJob}" method ="POST">
+
+<!-- <th:block th:each="currentJob: ${jobsAppliedFor}">
+
+	Title: <span th:text="${currentJob.title}"></span><br>
+	Company: <span th:text="${currentJob.company}"></span><br>
+</th:block>-->
+
+<th:block th:each="currentJob: ${applicant.jobsAppliedFor}">
+	<input type="text" th:field="*{currentJob.title}" readonly="readonly"> <br><br>
+	<input type="text" th:field="*{currentJob.employer.company}" readonly="readonly"> <br><br>
+</th:block>
+
+Username: <input type="text" name="username" th:field="*{username}"> <br><br>
+	
+	
+<input type="submit" value="Apply for Job!">
+</form>
+
+</body>
+</html>
